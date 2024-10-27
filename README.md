@@ -1,4 +1,5 @@
 # A docker playground for trex
+https://trex-tgn.cisco.com/trex/doc/trex_manual.html
 
 ## Prerequisites
 
@@ -23,6 +24,8 @@ In the docker container under /trex-core/scripts run:
 ```
 ./t-rex-64 -f cap2/dns.yaml -c 1 -m 1 -d 10
 ```
+https://trex-tgn.cisco.com/trex/doc/trex_manual.html#_running_trex_understanding_output
 
 ## Statefull example: GTP-U
+https://trex-tgn.cisco.com/trex/doc/trex_astf.html
 TODO
