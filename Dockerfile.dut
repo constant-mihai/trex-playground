@@ -1,0 +1,7 @@
+# DUT stands for Device Under Test
+FROM ubuntu:24.04 AS deps
+
+RUN apt update && apt install -y \
+    iproute2 tcpdump net-tools vim
+
+COPY ./dut-entrypoint.sh .

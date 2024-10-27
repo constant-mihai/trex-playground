@@ -1,0 +1,52 @@
+name: trex-playground 
+services:
+  dut:
+    privileged: true
+    cap_add:
+      - ALL
+    build:
+      dockerfile: ./Dockerfile.dut
+    image: dut
+    networks:
+      gtpu:
+        ipv4_address: 172.16.16.10
+      internet:
+        ipv4_address: 172.16.17.10
+    ports:
+      - 2152:2152
+    entrypoint: [ "./dut-entrypoint.sh" ]
+  # a self packaged trex
+  trex:
+    privileged: true
+    cap_add:
+      - ALL
+    build:
+      ssh:
+        - default
+      dockerfile: ./Dockerfile.trex
+    # the image can be replaced with cisco's, example here:
+    # https://trex-tgn.cisco.com/trex/doc/trex_vm_manual.html#docker
+    # image: trexcisco/trex
+    image: trex
+    networks:
+      gtpu:
+        ipv4_address: 172.16.16.200
+      internet:
+        ipv4_address: 172.16.17.200
+    ports:
+      - 2154:2152
+    entrypoint: [ "./trex-entrypoint.sh" ]
+
+networks:
+  gtpu:
+    driver: bridge
+    ipam:
+      driver: default
+      config:
+        - subnet: "172.16.16.0/24"
+  internet:
+    driver: bridge
+    ipam:
+      driver: default
+      config:
+        - subnet: "172.16.17.0/24"
