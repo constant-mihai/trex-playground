@@ -1,0 +1,18 @@
+FROM ubuntu:22.04 AS deps
+
+ENV DEBIAN_FRONTEND=noninteractive
+RUN apt update && apt install -y \
+        autoconf \
+        binutils build-essential \
+        git \
+        libtool libmnl-dev \
+        pkg-config \
+        vim
+
+FROM deps AS build
+ARG VERSION=1.3.1
+RUN git clone --single-branch -b ${VERSION} https://gitea.osmocom.org/cellular-infrastructure/libgtpnl && \
+    cd libgtpnl && autoreconf -fi && ./configure && \
+    make && make install
+
+WORKDIR /libgtpnl/tools
