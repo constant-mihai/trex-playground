@@ -15,7 +15,7 @@ FROM deps AS build
 ARG VERSION=v3.05
 
 RUN mkdir -p -m 0700 ~/.ssh && ssh-keyscan github.com >> ~/.ssh/known_hosts
-# RUN echo "StrictHostKeyChecking no" > ~/.ssh/ssh_config
+# RUN echo "StrictHostKeyChecking no" > /etc/ssh_config
 
 # TODO: the image is still quite big at 2.9GB and could use some trimming down.
 # Then again the trexcisco/trex one is pretty large as well:
@@ -26,6 +26,7 @@ RUN --mount=type=ssh git clone --single-branch -b ${VERSION} git@github.com:cisc
     cd linux && ./b configure && ./b build
 
 COPY trex_cfg.yaml /etc/trex_cfg.yaml
+COPY trex_cfg_gtpu.yaml /etc/trex_cfg_gtpu.yaml
 
 WORKDIR /trex-core/scripts
 COPY ./trex-entrypoint.sh .

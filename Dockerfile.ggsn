@@ -5,8 +5,10 @@ RUN apt update && apt install -y \
         autoconf \
         binutils build-essential \
         git \
+        iproute2 iptables iputils-ping \
         libtool libmnl-dev \
         pkg-config \
+        tcpdump \
         vim
 
 FROM deps AS build
@@ -16,3 +18,4 @@ RUN git clone --single-branch -b ${VERSION} https://gitea.osmocom.org/cellular-i
     make && make install
 
 WORKDIR /libgtpnl/tools
+COPY ggsn-entrypoint.sh .
